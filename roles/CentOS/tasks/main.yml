@@ -1,0 +1,31 @@
+---
+
+- name: Install httpd and php for CentOS
+  dnf:
+    name:
+      - httpd
+      - php
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: httpd Restarting/Enabling
+  service:
+    name: httpd
+    state: restarted
+    enabled: true
+
+- name: Install Mariadb service
+  dnf:
+    name: mariadb-server
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: madiadb Restarting/Enabling
+  service:
+    name: mariadb
+    state: restarted
+    enabled: true
+
+- name: Install Nagios Monitoring tool
+  command: wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.10.tar.gz
+  when: ansible_distribution == "CentOS"

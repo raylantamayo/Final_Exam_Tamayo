@@ -1,0 +1,34 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: False
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install updates (CentOS)
+    tags: always
+    dnf:
+      update_cache: yes
+    changed_when: False
+    when: ansible_distribution == "CentOS"
+
+  - name: Create a banner motd
+    copy:
+      content: "Ansible Manage by Tamayo\n"
+      dest: /etc/motd
+
+- hosts: Ubuntu
+  become: true
+  roles:
+    - Ubuntu
+
+- hosts: CentOs
+  become: true
+  roles:
+    - CentOs
